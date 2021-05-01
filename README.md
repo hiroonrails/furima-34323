@@ -63,7 +63,7 @@
 ### Association
 
 - belongs_to :user
-- has_one  :item
+- belongs_to :item
 - has_one  :address
 
 ## addresses テーブル
@@ -75,9 +75,9 @@
 | address_line1  | string     | null: false                    |
 | address_line2  | string     | null: false                    |
 | bldg_name      | string     |
-| phone_number   | integer    | null: false |
+| phone_number   | string     | null: false |
 | purchase       | references | null: false, foreign_key: true |
 
 ### Association
 
-- has_one  :purchase
+- belongs_to  :purchase
