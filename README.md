@@ -11,7 +11,7 @@
 | kanji_last         | string  | null: false              |
 | kana_first         | string  | null: false              |
 | kana_last          | string  | null: false              |
-| yyyymmdd           | date    | null: false              |
+| birth_date         | date    | null: false              |
 
 ### Association
 
@@ -29,19 +29,15 @@
 | status_id        | integer    | null: false |
 | delivery_fee_id  | integer    | null: false |
 | area_id          | integer    | null: false |
-| shipment_days_id | integer    | null: false |
+| shipment_day_id  | integer    | null: false |
 | price            | integer    | null: false |
 | user             | references | null: false, foreign_key: true|
-| comment          | references | null: false, foreign_key: true|
-| purchase         | references | null: false, foreign_key: true|
-
 
 ### Association
 
 - belongs_to :user
 - has_many :comments
 - has_one  :purchase
-
 
 ## comments テーブル
 
@@ -60,24 +56,28 @@
 
 | Column         | Type       | Options     |
 | -----------    | ---------  | ----------- |
-| card_number    | integer    | null: false |
-| valid          | integer    | null: false |
-| security_code  | integer    | null: false |
-| phone_number   | integer    | null: false |
-| user           | references | null: false, foreign_key: true|
-| item           | references | null: false, foreign_key: true|
+| user           | references | null: false, foreign_key: true |
+| item           | references | null: false, foreign_key: true |
+| address        | references | null: false, foreign_key: true |
 
 ### Association
 
 - belongs_to :user
 - has_one  :item
+- has_one  :address
 
 ## addresses テーブル
 
-| Column         | Type       | Options     |
-| -----------    | ---------  | ----------- |
-| postal_code    | integer    | null: false |
-| prefecture     | string     | null: false |
-| address_line1  | string     | null: false |
-| address_line2  | string     | null: false |
-| bldg_name      | string     | null: false |
+| Column         | Type       | Options                        |
+| -----------    | ---------  | -----------                    |
+| postal_code    | string     | null: false                    |
+| prefecture_id  | integer    | null: false                    |
+| address_line1  | string     | null: false                    |
+| address_line2  | string     | null: false                    |
+| bldg_name      | string     |
+| phone_number   | integer    | null: false |
+| purchase       | references | null: false, foreign_key: true |
+
+### Association
+
+- has_one  :purchase
