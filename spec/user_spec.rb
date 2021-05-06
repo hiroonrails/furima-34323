@@ -12,6 +12,20 @@ RSpec.describe User, type: :model do
       expect(@user.errors.full_messages).to include("Name can't be blank")
     end
 
+    it 'ユーザー本名(漢字)は、全角での入力が必須' do
+      @user.kanji_first = "lalaland侍摂政マル"
+      @user.kanji_last = "lalaland侍摂政マル"
+      @user.valid?
+      expect(@user.errors.full_messages).to include("Kanji first 全角文字を使用してください", "Kanji last 全角文字を使用してください")
+    end
+
+    it 'ユーザー本名(カナ)は、全角での入力が必須' do
+      @user.kana_first = "lalaland侍摂政マル"
+      @user.kana_last = "lalaland侍摂政マル"
+      @user.valid?
+      expect(@user.errors.full_messages).to include("Kana first 全角文字を使用してください", "Kana last 全角文字を使用してください")
+    end
+
     it 'メールアドレスが必須であること' do
       @user.email = ""
       @user.valid?
@@ -62,6 +76,26 @@ RSpec.describe User, type: :model do
       @user.password = "aaaaaa6"
       @user.password_confirmation = "aaaaaa6"
       expect(@user).to be_valid
+    end
+
+    it 'パスワードは英字のみでは登録できないこと' do
+      @user.password = "aaaaaa"
+      @user.password_confirmation = "aaaaaa"
+      @user.valid?
+      expect(@user.errors.full_messages).to include("Password は6文字以上の英数字が使えます")
+    end
+
+    it 'パスワードは数字のみでは登録できないこと' do
+      @user.password = "999999"
+      @user.password_confirmation = "999999"
+      @user.valid?
+      expect(@user.errors.full_messages).to include("Password は6文字以上の英数字が使えます")
+    end
+
+    it '誕生日が空では保存できないこと' do
+      @user.birth_date = ""
+      @user.valid?
+      expect(@user.errors.full_messages).to include("Birth date can't be blank")
     end
 
   end
