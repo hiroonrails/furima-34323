@@ -3,11 +3,12 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
-         VALID_REGEX = /\A(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{6,}\z/
+         #VALID_REGEX = /\A(?=.*[a-zA-Z0-9])(?=.*\d)[a-zA-Z0-9\d]{6,}\z/
+         REGEX = /\A(?=.*?[a-z])(?=.*?[\d])[a-z\d]+\z/i.freeze
         with_options presence: true do
           validates :name
-          validates :password, format: { with: VALID_REGEX , message: "は6文字以上の英数字が使えます" }
-          with_options format: { with: /\A[一-龥]+\z/, message: '全角漢字の文字を使用してください' } do
+          validates :password, format: { with: REGEX , message: "は6文字以上の半角英数字が使えます" }
+          with_options format: { with: /\A[ぁ-んァ-ン一-龥]+\z/, message: 'は、全角(ひらがな、カタカナ、漢字)の文字を使用してください' } do
             validates :kanji_first
             validates :kanji_last
           end
