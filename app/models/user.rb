@@ -3,7 +3,7 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
-  # VALID_REGEX = /\A(?=.*[a-zA-Z0-9])(?=.*\d)[a-zA-Z0-9\d]{6,}\z/
+  has_many :items
   REGEX = /\A(?=.*?[a-z])(?=.*?\d)[a-z\d]+\z/i.freeze
   with_options presence: true do
     validates :name

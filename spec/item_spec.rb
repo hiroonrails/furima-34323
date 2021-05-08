@@ -22,32 +22,32 @@ RSpec.describe Item, type: :model do
       end
 
       it '商品の状態についての情報が必須であることと' do
-        @item.status_id = '5'
+        @item.status_id = 5
         expect(@item).to be_valid
       end
 
       it '配送料の負担についての情報が必須であること' do
-        @item.delivery_fee_id = '6'
+        @item.delivery_fee_id = 6
         expect(@item).to be_valid
       end
 
       it '発送元の地域についての情報が必須であること' do
-        @item.prefecture_id = '7'
+        @item.prefecture_id = 7
         expect(@item).to be_valid
       end
 
       it '発送までの日数についての情報が必須であること' do
-        @item.shipment_day_id = '1'
+        @item.shipment_day_id = 1
         expect(@item).to be_valid
       end
 
       it '¥300~¥9,999,999の販売価格が必須であること' do
-        @item.price = '450'
+        @item.price = 450
         expect(@item).to be_valid
       end
 
       it '販売価格は半角数字のみ保存可能であること' do
-        @item.price = '1000'
+        @item.price = 1000
         expect(@item).to be_valid
       end
     end
@@ -78,7 +78,7 @@ RSpec.describe Item, type: :model do
       end
 
       it '商品の状態が0では登録できない' do
-        @item.status_id = '0'
+        @item.status_id = 0
         @item.valid?
         expect(@item.errors.full_messages).to include("Status を入力してください")
       end
@@ -90,7 +90,7 @@ RSpec.describe Item, type: :model do
       end
 
       it '配送料の負担が0では登録できない' do
-        @item.delivery_fee_id = '0'
+        @item.delivery_fee_id = 0
         @item.valid?
         expect(@item.errors.full_messages).to include("Delivery fee を入力してください")
       end
@@ -102,7 +102,7 @@ RSpec.describe Item, type: :model do
       end
 
       it '発送元の地域が0では登録できない' do
-        @item.prefecture_id = '0'
+        @item.prefecture_id = 0
         @item.valid?
         expect(@item.errors.full_messages).to include("Prefecture を入力してください")
       end
@@ -114,7 +114,7 @@ RSpec.describe Item, type: :model do
       end
 
       it '発送までの日数が0では登録できない' do
-        @item.shipment_day_id = '0'
+        @item.shipment_day_id = 0
         @item.valid?
         expect(@item.errors.full_messages).to include("Shipment day を入力してください")
       end
@@ -126,13 +126,13 @@ RSpec.describe Item, type: :model do
       end
 
       it '販売価格が300より小さい数字では登録できない' do
-        @item.price = '299'
+        @item.price = 299
         @item.valid?
         expect(@item.errors.full_messages).to include("Price は300円以上、9,999,999円以下で入力してください")
       end
 
       it '販売価格が9999999より大きい数字では登録できない' do
-        @item.price = '10000000'
+        @item.price = 10000000
         @item.valid?
         expect(@item.errors.full_messages).to include("Price は300円以上、9,999,999円以下で入力してください")
       end
@@ -142,6 +142,19 @@ RSpec.describe Item, type: :model do
         @item.valid?
         expect(@item.errors.full_messages).to include("Price は半角数字が使えます")
       end
+
+      it '販売価格は半角英数字混合だと登録できない' do
+        @item.price = '3200yen'
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Price は300円以上、9,999,999円以下で入力してください")
+      end
+
+      it '販売価格は半角英字だと登録できない' do
+        @item.price = 'twothousand'
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Price は半角数字が使えます")
+      end
+
     end
   end
 end
