@@ -11,7 +11,7 @@ class Item < ApplicationRecord
   with_options presence: true do
     validates :item_name, length: { maximum: 40 }
     validates :explanation, length: { maximum: 1000 }
-    with_options numericality: { other_than: 0 } do
+    with_options numericality: { other_than: 0, message: "を入力してください" } do
       validates :category_id
       validates :status_id
       validates :delivery_fee_id
@@ -19,7 +19,7 @@ class Item < ApplicationRecord
       validates :shipment_day_id
     end
     with_options format: { with: REGEX, message: 'は半角数字が使えます' } do
-      validates :price, numericality: { greater_than: 300, less_than: 9_999_999 }
+      validates :price, numericality: { greater_than: 300, less_than: 9_999_999, message: 'は300円以上、9,999,999円以下で入力してください' }
     end
     validates :image
   end

@@ -72,33 +72,69 @@ RSpec.describe Item, type: :model do
       end
 
       it '商品の状態が空では登録できない' do
-        @item.status_id = ''
+        @item.status_id = nil
         @item.valid?
         expect(@item.errors.full_messages).to include("Status can't be blank")
       end
 
+      it '商品の状態が0では登録できない' do
+        @item.status_id = '0'
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Status を入力してください")
+      end
+
       it '配送料の負担が空では登録できない' do
-        @item.delivery_fee_id = ''
+        @item.delivery_fee_id = nil
         @item.valid?
         expect(@item.errors.full_messages).to include("Delivery fee can't be blank")
       end
 
+      it '配送料の負担が0では登録できない' do
+        @item.delivery_fee_id = '0'
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Delivery fee を入力してください")
+      end
+
       it '発送元の地域が空では登録できない' do
-        @item.prefecture_id = ''
+        @item.prefecture_id = nil
         @item.valid?
         expect(@item.errors.full_messages).to include("Prefecture can't be blank")
       end
 
+      it '発送元の地域が0では登録できない' do
+        @item.prefecture_id = '0'
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Prefecture を入力してください")
+      end
+
       it '発送までの日数が空では登録できない' do
-        @item.shipment_day_id = ''
+        @item.shipment_day_id = nil
         @item.valid?
         expect(@item.errors.full_messages).to include("Shipment day can't be blank")
       end
 
+      it '発送までの日数が0では登録できない' do
+        @item.shipment_day_id = '0'
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Shipment day を入力してください")
+      end
+
       it '販売価格が空では登録できない' do
-        @item.price = ''
+        @item.price = nil
         @item.valid?
         expect(@item.errors.full_messages).to include("Price can't be blank")
+      end
+
+      it '販売価格が300より小さい数字では登録できない' do
+        @item.price = '299'
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Price は300円以上、9,999,999円以下で入力してください")
+      end
+
+      it '販売価格が9999999より大きい数字では登録できない' do
+        @item.price = '10000000'
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Price は300円以上、9,999,999円以下で入力してください")
       end
 
       it '販売価格は半角数字でないと登録できない' do
