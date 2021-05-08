@@ -21,6 +21,11 @@ RSpec.describe Item, type: :model do
         expect(@item).to be_valid
       end
 
+      it '商品のカテゴリーが必須であること' do
+        @item.item_name = 1
+        expect(@item).to be_valid
+      end
+
       it '商品の状態についての情報が必須であることと' do
         @item.status_id = 5
         expect(@item).to be_valid
@@ -71,6 +76,18 @@ RSpec.describe Item, type: :model do
         expect(@item.errors.full_messages).to include("Explanation can't be blank")
       end
 
+      it '商品のカテゴリーが空では登録できない' do
+        @item.category_id = nil
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Category can't be blank")
+      end
+
+      it '商品のカテゴリーが0では登録できない' do
+        @item.category_id = 0
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Category を入力してください")
+      end
+
       it '商品の状態が空では登録できない' do
         @item.status_id = nil
         @item.valid?
@@ -89,10 +106,22 @@ RSpec.describe Item, type: :model do
         expect(@item.errors.full_messages).to include("Delivery fee can't be blank")
       end
 
-      it '配送料の負担が0では登録できない' do
-        @item.delivery_fee_id = 0
+      it '配送料の負担が空では登録できない' do
+        @item.delivery_fee_id = nil
         @item.valid?
-        expect(@item.errors.full_messages).to include("Delivery fee を入力してください")
+        expect(@item.errors.full_messages).to include("Delivery fee can't be blank")
+      end
+
+      it '発送までの日数が空では登録できない' do
+        @item.shipment_day_id = nil
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Shipment day を入力してください")
+      end
+
+      it '発送までの日数が0では登録できない' do
+        @item.shipment_day_id = 0
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Shipment day を入力してください")
       end
 
       it '発送元の地域が空では登録できない' do
@@ -105,18 +134,6 @@ RSpec.describe Item, type: :model do
         @item.prefecture_id = 0
         @item.valid?
         expect(@item.errors.full_messages).to include("Prefecture を入力してください")
-      end
-
-      it '発送までの日数が空では登録できない' do
-        @item.shipment_day_id = nil
-        @item.valid?
-        expect(@item.errors.full_messages).to include("Shipment day can't be blank")
-      end
-
-      it '発送までの日数が0では登録できない' do
-        @item.shipment_day_id = 0
-        @item.valid?
-        expect(@item.errors.full_messages).to include("Shipment day を入力してください")
       end
 
       it '販売価格が空では登録できない' do
@@ -153,6 +170,12 @@ RSpec.describe Item, type: :model do
         @item.price = 'twothousand'
         @item.valid?
         expect(@item.errors.full_messages).to include("Price は半角数字が使えます")
+      end
+
+      it 'userが紐付いていない場合は登録できない' do
+        @item.user = nil
+        @item.valid?
+        expect(@item.errors.full_messages).to include("User must exist")
       end
 
     end
