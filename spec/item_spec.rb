@@ -85,7 +85,7 @@ RSpec.describe Item, type: :model do
       it '商品のカテゴリーが0では登録できない' do
         @item.category_id = 0
         @item.valid?
-        expect(@item.errors.full_messages).to include("Category を入力してください")
+        expect(@item.errors.full_messages).to include('Category を入力してください')
       end
 
       it '商品の状態が空では登録できない' do
@@ -97,7 +97,7 @@ RSpec.describe Item, type: :model do
       it '商品の状態が0では登録できない' do
         @item.status_id = 0
         @item.valid?
-        expect(@item.errors.full_messages).to include("Status を入力してください")
+        expect(@item.errors.full_messages).to include('Status を入力してください')
       end
 
       it '配送料の負担が空では登録できない' do
@@ -115,13 +115,13 @@ RSpec.describe Item, type: :model do
       it '発送までの日数が空では登録できない' do
         @item.shipment_day_id = nil
         @item.valid?
-        expect(@item.errors.full_messages).to include("Shipment day を入力してください")
+        expect(@item.errors.full_messages).to include('Shipment day を入力してください')
       end
 
       it '発送までの日数が0では登録できない' do
         @item.shipment_day_id = 0
         @item.valid?
-        expect(@item.errors.full_messages).to include("Shipment day を入力してください")
+        expect(@item.errors.full_messages).to include('Shipment day を入力してください')
       end
 
       it '発送元の地域が空では登録できない' do
@@ -133,7 +133,7 @@ RSpec.describe Item, type: :model do
       it '発送元の地域が0では登録できない' do
         @item.prefecture_id = 0
         @item.valid?
-        expect(@item.errors.full_messages).to include("Prefecture を入力してください")
+        expect(@item.errors.full_messages).to include('Prefecture を入力してください')
       end
 
       it '販売価格が空では登録できない' do
@@ -145,39 +145,38 @@ RSpec.describe Item, type: :model do
       it '販売価格が300より小さい数字では登録できない' do
         @item.price = 299
         @item.valid?
-        expect(@item.errors.full_messages).to include("Price は300円以上、9,999,999円以下で入力してください")
+        expect(@item.errors.full_messages).to include('Price は300円以上、9,999,999円以下で入力してください')
       end
 
       it '販売価格が9999999より大きい数字では登録できない' do
-        @item.price = 10000000
+        @item.price = 10_000_000
         @item.valid?
-        expect(@item.errors.full_messages).to include("Price は300円以上、9,999,999円以下で入力してください")
+        expect(@item.errors.full_messages).to include('Price は300円以上、9,999,999円以下で入力してください')
       end
 
       it '販売価格は半角数字でないと登録できない' do
         @item.price = '１１１１１１'
         @item.valid?
-        expect(@item.errors.full_messages).to include("Price は半角数字が使えます")
+        expect(@item.errors.full_messages).to include('Price は半角数字が使えます')
       end
 
       it '販売価格は半角英数字混合だと登録できない' do
         @item.price = '3200yen'
         @item.valid?
-        expect(@item.errors.full_messages).to include("Price は300円以上、9,999,999円以下で入力してください")
+        expect(@item.errors.full_messages).to include('Price は300円以上、9,999,999円以下で入力してください')
       end
 
       it '販売価格は半角英字だと登録できない' do
         @item.price = 'twothousand'
         @item.valid?
-        expect(@item.errors.full_messages).to include("Price は半角数字が使えます")
+        expect(@item.errors.full_messages).to include('Price は半角数字が使えます')
       end
 
       it 'userが紐付いていない場合は登録できない' do
         @item.user = nil
         @item.valid?
-        expect(@item.errors.full_messages).to include("User must exist")
+        expect(@item.errors.full_messages).to include('User must exist')
       end
-
     end
   end
 end
