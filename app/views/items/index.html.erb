@@ -125,12 +125,7 @@
     <h2 class='title'>ピックアップカテゴリー</h2>
     <%= link_to '新規投稿商品', item_path(:user_id), class: "subtitle" %>
     <ul class='item-lists'>
-
-      <% @items.each do |item|%>
-        <%= render partial:"item", locals: { item: item } %>
-      <% end %>
-
-      <% if @items = nil %>
+      <% if @items.length == 0 %>
         <li class='list'>
           <%= link_to '#' do %>
           <%= image_tag "https://tech-master.s3.amazonaws.com/uploads/curriculums/images/Rails1-4/sample.jpg", class: "item-img" %>
@@ -148,6 +143,10 @@
           </div>
           <% end %>
         </li>
+      <% else %>
+        <% @items.each do |item|%>
+          <%= render partial:"item", locals: { item: item } %>
+        <% end %>
       <% end %>
     </ul>
   </div>
