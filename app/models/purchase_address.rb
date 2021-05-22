@@ -1,7 +1,7 @@
 class PurchaseAddress
 
   include ActiveModel::Model
-  attr_accessor :postal_code, :prefecture_id, :address_line1, :address_line2, :bldg_name, :phone_number, :user_id, :item_id
+  attr_accessor :postal_code, :prefecture_id, :address_line1, :address_line2, :bldg_name, :phone_number, :user_id, :item_id, :token, :price
 
   VALID_POSTALCODE_REGEX = /\A[0-9]{3}-[0-9]{4}\z/
   VALID_PHONENUMBER_REGEX = /\A\d{11}\z/
@@ -13,6 +13,8 @@ class PurchaseAddress
     validates :phone_number, format: {with: VALID_PHONENUMBER_REGEX, message: "is invalid. Must be up to 11 number.", allow_blank: true}
     validates :user_id
     validates :item_id
+    validates :token
+    validates :price
   end
 
   def save
