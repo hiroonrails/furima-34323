@@ -49,6 +49,10 @@ RSpec.describe PurchaseAddress, type: :model do
         expect(@purchase_address).to be_valid
       end
 
+      it "priceとtokenがあれば保存ができること" do
+        expect(@purchase_address).to be_valid
+      end
+
     end
 
     context '商品購入がうまく行かないとき' do
@@ -112,12 +116,6 @@ RSpec.describe PurchaseAddress, type: :model do
         expect(@purchase_address.errors.full_messages).to include("Item can't be blank")
       end
 
-      #it 'tokenが空ではできない' do
-      #  @purchase_address.token = nil
-      #  @purchase_address.valid?
-      #  expect(@purchase_address.errors.full_messages).to include("Token can't be blank")
-      #end
-
       it '電話番号は英数混合ではできない' do
         @purchase_address.phone_number = "a1111111111"
         @purchase_address.valid?
@@ -128,6 +126,18 @@ RSpec.describe PurchaseAddress, type: :model do
         @purchase_address.phone_number = "333333333"
         @purchase_address.valid?
         expect(@purchase_address.errors.full_messages).to include("Phone number is invalid. Must be up to 11 number.")
+      end
+
+      it "priceが空では保存ができないこと" do
+        @purchase_address.price = nil
+        @purchase_address.valid?
+        expect(@purchase_address.errors.full_messages).to include("Price can't be blank")
+      end
+
+      it "tokenが空では登録できないこと" do
+        @purchase_address.token = nil
+        @purchase_address.valid?
+        expect(@purchase_address.errors.full_messages).to include("Token can't be blank")
       end
 
     end
