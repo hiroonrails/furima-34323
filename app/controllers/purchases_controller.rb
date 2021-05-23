@@ -1,13 +1,18 @@
 class PurchasesController < ApplicationController
   before_action :authenticate_user!, except: :index
   before_action :purchase_params
+  before_action :payment_block_user
+  before_action :payment_block_purchaser
 
   def index
-    @purchase_address = PurchaseAddress.new
+    if user_signed_in?
+      @purchase_address = PurchaseAddress.new
+    else
+      redirect_to new_user_session_path
+    end
   end
 
   def create
-    binding.pry
     @purchase_address = PurchaseAddress.new(payment_params)
     if @purchase_address.valid?
       pay_item
@@ -34,6 +39,18 @@ class PurchasesController < ApplicationController
         card: payment_params[:token],
         currency: 'jpy'
       )
+  end
+
+  def payment_block_user
+    if current_user.id == @item.user_id
+      redirect_to root_path
+    end
+  end
+
+  def payment_block_purchaser
+    if @item.purchase.present?
+      redirect_to root_path
+    end
   end
 
 end

@@ -7,6 +7,7 @@ class Item < ApplicationRecord
   belongs_to :delivery_fee
   belongs_to :shipment_day
   has_one_attached :image
+  has_one :purchase
 
   REGEX = /\A([1-9]\d*,)*[1-9]\d*\z/.freeze
   with_options presence: true do
