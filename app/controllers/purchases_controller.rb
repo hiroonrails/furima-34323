@@ -42,13 +42,13 @@ class PurchasesController < ApplicationController
   end
 
   def payment_block_user
-    if current_user.id == @item.user_id
+    if user_signed_in? && current_user.id == @item.user_id
       redirect_to root_path
     end
   end
 
   def payment_block_purchaser
-    if @item.purchase.present?
+    if user_signed_in? && @item.purchase.present?
       redirect_to root_path
     end
   end
