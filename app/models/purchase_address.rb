@@ -4,7 +4,7 @@ class PurchaseAddress
   attr_accessor :postal_code, :prefecture_id, :address_line1, :address_line2, :bldg_name, :phone_number, :user_id, :item_id, :token, :price
 
   VALID_POSTALCODE_REGEX = /\A[0-9]{3}-[0-9]{4}\z/
-  VALID_PHONENUMBER_REGEX = /\A\d{11}\z/
+  VALID_PHONENUMBER_REGEX = /\A\d{10}$|^\d{11}\z/
   with_options presence: true do
     validates :postal_code, format: {with: VALID_POSTALCODE_REGEX, message: "is invalid. Include hyphen(-)", allow_blank: true}
     validates :prefecture_id, numericality: {other_than: 0, message: "can't be blank"}

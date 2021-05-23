@@ -5,11 +5,7 @@ class PurchasesController < ApplicationController
   before_action :payment_block_purchaser
 
   def index
-    if user_signed_in?
       @purchase_address = PurchaseAddress.new
-    else
-      redirect_to new_user_session_path
-    end
   end
 
   def create
@@ -42,13 +38,13 @@ class PurchasesController < ApplicationController
   end
 
   def payment_block_user
-    if user_signed_in? && current_user.id == @item.user_id
+    if current_user.id == @item.user_id
       redirect_to root_path
     end
   end
 
   def payment_block_purchaser
-    if user_signed_in? && @item.purchase.present?
+    if @item.purchase.present?
       redirect_to root_path
     end
   end

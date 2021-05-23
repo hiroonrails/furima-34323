@@ -99,7 +99,7 @@ RSpec.describe PurchaseAddress, type: :model do
       end
 
       it '電話番号にハイフンが入ると登録できない' do
-        @purchase_address.phone_number = "080-9906-9433"
+        @purchase_address.phone_number = "080-990-934"
         @purchase_address.valid?
         expect(@purchase_address.errors.full_messages).to include("Phone number is invalid. Must be up to 11 number.")
       end
