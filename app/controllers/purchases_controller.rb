@@ -1,8 +1,7 @@
 class PurchasesController < ApplicationController
   before_action :authenticate_user!, except: :index
   before_action :purchase_params
-  before_action :payment_block_user
-  before_action :payment_block_purchaser
+  before_action :payment_block_logout, :payment_block_user, :payment_block_purchaser
 
   def index
       @purchase_address = PurchaseAddress.new
@@ -46,6 +45,12 @@ class PurchasesController < ApplicationController
   def payment_block_purchaser
     if @item.purchase.present?
       redirect_to root_path
+    end
+  end
+
+  def payment_block_logout
+    unless user_signed_in?
+      redirect_to user_session_path
     end
   end
 
